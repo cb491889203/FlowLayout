@@ -84,8 +84,9 @@ public class FlowLayout extends ViewGroup {
 				height += lineHeight;
 			}
 		}
-		setMeasuredDimension(specModeWidth == MeasureSpec.EXACTLY ? specSizeWidth : width, specModeHeight == MeasureSpec.EXACTLY ?
-				specSizeHeight : height);
+		setMeasuredDimension(specModeWidth == MeasureSpec.EXACTLY ? specSizeWidth : width + getPaddingLeft() + getPaddingRight(), specModeHeight ==
+				MeasureSpec.EXACTLY ?
+				specSizeHeight : height + (getPaddingLeft() + getPaddingRight()));
 //		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 	}
 
@@ -109,7 +110,7 @@ public class FlowLayout extends ViewGroup {
 			int childWidth = child.getMeasuredWidth() + childLayoutParams.leftMargin + childLayoutParams.rightMargin;
 			int childHeight = child.getMeasuredHeight() + childLayoutParams.topMargin + childLayoutParams.bottomMargin;
 			//每一行的操作
-			if(lineWidth + childWidth >= width){
+			if(lineWidth + childWidth >= width - (getPaddingLeft() + getPaddingRight())){
 			    //需要换行
 				//将当前行加入总的集合中
 				allViews.add(lineViews);
@@ -129,8 +130,8 @@ public class FlowLayout extends ViewGroup {
 		lineHeights.add(lineHeight);
 
 		//开始给每个view布局
-		int left = 0;//左边的距离，定位当前view的左边距
-		int top = 0;//高度，定位当前view的上边距
+		int left = getPaddingLeft();//左边的距离，定位当前view的左边距
+		int top = getPaddingTop();//高度，定位当前view的上边距
 		int rowCount = lineHeights.size();//当前有几行
 		for (int i = 0; i < rowCount; i++) {
 			//初始化每行的参数
@@ -153,7 +154,7 @@ public class FlowLayout extends ViewGroup {
 			}
 			//每行布局结束,累加高度，宽度从0开始。
 			top += lineHeight;
-			left = 0;
+			left = getPaddingLeft();
 		}
 	}
 
