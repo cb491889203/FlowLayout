@@ -10,4 +10,11 @@
         <item name="android:text">哈哈哈</item>
     </style>
 
+    <style name="MyTextView" >
+        <item name="android:background">@drawable/greywhite</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">12sp</item>
+
+    </style>
+
 </resources>

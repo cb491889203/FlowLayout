@@ -38,6 +38,9 @@ public class FlowLayout extends ViewGroup {
 
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		allViews.clear();
+		lineHeights.clear();
+
 		//父控件给我们的约束
 		int specSizeWidth = MeasureSpec.getSize(widthMeasureSpec);
 		int specSizeHeight = MeasureSpec.getSize(heightMeasureSpec);
@@ -50,7 +53,8 @@ public class FlowLayout extends ViewGroup {
 		//当前行的宽高
 		int lineWidth = 0;  //行宽
 		int lineHeight = 0;  //行高
-
+		//当前行的子view的集合
+		List<View> lineViews = new ArrayList<>();
 		//获取子View数量
 		int childCount = getChildCount();
 		for (int i = 0; i < childCount; i++) {
@@ -70,18 +74,28 @@ public class FlowLayout extends ViewGroup {
 				//需要换行,记录当前流式布局的总宽高
 				width = Math.max(width, lineWidth);
 				height += lineHeight;
+				//将当前行的view加入总的集合中
+				allViews.add(lineViews);
+				lineHeights.add(lineHeight);
 				//重置新的一行的宽高
 				lineWidth = childWidth;
 				lineHeight = childHeight;
+				lineViews = new ArrayList<>();
+				lineViews.add(child);  //将换行后的第一个view添加进集合
 			} else {
 				//继续添加在本行
 				lineWidth += childWidth;
 				lineHeight = Math.max(childHeight, lineHeight);
+				//每一行添加view
+				lineViews.add(child);
 			}
 			//当前i到达最后一个控件时。需要处理总的宽高
 			if (i == childCount - 1) {
 				width = Math.max(lineWidth, width);
 				height += lineHeight;
+				//最后一个子View时特殊处理
+				allViews.add(lineViews);
+				lineHeights.add(lineHeight);
 			}
 		}
 		setMeasuredDimension(specModeWidth == MeasureSpec.EXACTLY ? specSizeWidth : width + getPaddingLeft() + getPaddingRight(), specModeHeight ==
@@ -92,7 +106,7 @@ public class FlowLayout extends ViewGroup {
 
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
-		allViews.clear();
+		/*allViews.clear();
 		lineHeights.clear();
 		//当前流式布局的宽高
 		int width = getWidth();
@@ -128,7 +142,10 @@ public class FlowLayout extends ViewGroup {
 		//最后一个子View时特殊处理
 		allViews.add(lineViews);
 		lineHeights.add(lineHeight);
-
+*/
+		//当前行的子view的集合
+		List<View> lineViews;
+		int lineHeight = 0;
 		//开始给每个view布局
 		int left = getPaddingLeft();//左边的距离，定位当前view的左边距
 		int top = getPaddingTop();//高度，定位当前view的上边距
