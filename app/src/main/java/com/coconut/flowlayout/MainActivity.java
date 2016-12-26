@@ -31,11 +31,11 @@ public class MainActivity extends AppCompatActivity {
 		mFlowLayout = (FlowLayout) findViewById(R.id.fl);
 		add_label = (Button) findViewById(R.id.add_label);
 		delete_label = (Button) findViewById(R.id.delete_label);
-		initView();
+		initData();
 		setListener();
 	}
 
-	private void initView() {
+	private void initData() {
 		mTextViewList = new ArrayList<>();
 		labels = new String[]{"Java", "Android", "IOS", "C", "C++", "Go", "C#", "Ruby", "Phyton", "PHP", ".NET", "HTML/CSS", "javaScript",
 				"jQuery", "AngularJS", "Cocos2d-x", "MySQL", "React", "WebApp", "Oracle", "SQL Server", "MongoDB"};
